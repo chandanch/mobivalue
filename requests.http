@@ -8,10 +8,18 @@ content-type: application/json
 }
 
 ### Find User By Id
-GET http://localhost:3000/auth/2
+GET http://localhost:3000/auth/22222
 
 ### Find User by Email
 GET http://localhost:3000/auth?email=maram@ee.com&status=fhd
 
 ### Delete User
-DELETE http://localhost:3000/auth/5
+DELETE http://localhost:3000/auth/23322222
+
+### Update User
+PATCH http://localhost:3000/auth/1swwwww
+content-type: application/json
+
+{
+    "password": "sipman@ee.com"
+}
