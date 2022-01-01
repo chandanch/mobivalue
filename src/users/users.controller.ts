@@ -33,7 +33,7 @@ export class UsersController {
         if (!user) {
             throw new NotFoundException('User Not Found in us');
         }
-
+        console.log(user);
         return user;
     }
 
