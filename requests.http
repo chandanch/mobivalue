@@ -3,15 +3,15 @@ POST http://localhost:3000/auth/signup
 content-type: application/json
 
 {
-    "email": "dipoe@ee.com",
-    "password": "WWWWWW"
+    "email": "332e@ee.com",
+    "password": "W2233333WWWWW"
 }
 
 ### Find User By Id
-GET http://localhost:3000/auth/22222
+GET http://localhost:3000/auth/6
 
 ### Find User by Email
-GET http://localhost:3000/auth?email=maram@ee.com&status=fhd
+GET http://localhost:3000/auth?email=332e@ee.com&status=fhd
 
 ### Delete User
 DELETE http://localhost:3000/auth/23322222
