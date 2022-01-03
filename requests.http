@@ -17,7 +17,7 @@ GET http://localhost:3000/auth?email=332e@ee.com&status=fhd
 DELETE http://localhost:3000/auth/23322222
 
 ### Update User
-PATCH http://localhost:3000/auth/1swwwww
+PATCH http://localhost:3000/auth/6
 content-type: application/json
 
 {
