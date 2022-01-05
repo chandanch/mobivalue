@@ -1,4 +1,9 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+    BadRequestException,
+    ForbiddenException,
+    Injectable,
+    NotFoundException,
+} from '@nestjs/common';
 import { randomBytes, scrypt as _scrypt } from 'crypto';
 import { promisify } from 'util';
 import { UsersService } from './users.service';
@@ -12,7 +17,7 @@ export class AuthService {
     async signup(email: string, password: string) {
         // 1. Check if the email exists
         const users = await this.usersService.find(email);
-        if (!users.length) {
+        if (users.length) {
             throw new BadRequestException('Email in use!');
         }
 
@@ -25,7 +30,30 @@ export class AuthService {
 
         // 2.3 Combine hashed password with salt using (.)
         const result = `${salt}.${hash.toString('hex')}`;
+
+        // 3. Save the email and the salted-hashed password
+        const user = await this.usersService.create(email, result);
+
+        return user;
     }
 
-    signin() {}
+    async signin(email: string, password: string) {
+        const [user] = await this.usersService.find(email);
+        if (!user) {
+            throw new NotFoundException('User not found');
+        }
+
+        // 1. Get the salt and hash of the stored password
+        const [salt, storedHash] = user.password.split('.');
+
+        // 2. Generated the hash using the supplied passed and stored salt
+        const hash = (await scrypt(password, salt, 32)) as Buffer;
+
+        // 3. Compare the new generated hash with the stored hash
+        if (storedHash !== hash.toString('hex')) {
+            throw new ForbiddenException('Invalid Password');
+        }
+
+        return user;
+    }
 }
