@@ -32,3 +32,9 @@ content-type: application/json
 {
     "password": "sipman@ee.com"
 }
+
+### Set Color
+GET http://localhost:3000/auth/colors/reder
+
+### Get Color
+GET http://localhost:3000/auth/colors

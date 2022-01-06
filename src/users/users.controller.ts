@@ -8,6 +8,7 @@ import {
     Patch,
     Post,
     Query,
+    Session,
 } from '@nestjs/common';
 import { Serializer } from 'src/interceptors/serializer.interceptor';
 import { AuthService } from './auth.service';
@@ -33,6 +34,16 @@ export class UsersController {
     signin(@Body() body: UserDto) {
         return this.authService.signin(body.email, body.password);
     }
+
+    // @Get('/colors/:color')
+    // setColor(@Param('color') color: string, @Session() session: any) {
+    //     session.color = color;
+    // }
+
+    // @Get('/colors')
+    // getColor(@Session() session: any) {
+    //     return session.color;
+    // }
 
     //Approach 1:  @UseInterceptors(new SerializeInterceptor(UserDetailsDTO))
     @Get('/:id')
