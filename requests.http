@@ -3,8 +3,8 @@ POST http://localhost:3000/auth/signup
 content-type: application/json
 
 {
-    "email": "Filerman@ee.com",
-    "password": "Pass@1"
+    "email": "sam@ee.com",
+    "password": "pass"
 }
 
 ### Login User
@@ -12,8 +12,8 @@ POST http://localhost:3000/auth/signin
 content-type: application/json
 
 {
-    "email": "Filermans@ee.com",
-    "password": "Pass@1"
+    "email": "sam@ee.com",
+    "password": "pass"
 }
 
 ### Find User By Id
@@ -34,7 +34,7 @@ content-type: application/json
 }
 
 ### Set Color
-GET http://localhost:3000/auth/colors/reder
+GET http://localhost:3000/auth/colors/eneioeioheoi
 
 ### Get Color
 GET http://localhost:3000/auth/colors
