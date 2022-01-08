@@ -9,12 +9,15 @@ import {
     Post,
     Query,
     Session,
+    UseInterceptors,
 } from '@nestjs/common';
 import { Serializer } from 'src/interceptors/serializer.interceptor';
 import { AuthService } from './auth.service';
+import { CurrentUser } from './decorators/current-user.decorator';
 import { UpdateUserDTO } from './dtos/updateUser.dto';
 import { UserDto } from './dtos/user.dto';
 import { UserDetailsDTO } from './dtos/userDetails.dto';
+import { User } from './users.entity';
 import { UsersService } from './users.service';
 
 @Controller('auth')
@@ -39,9 +42,20 @@ export class UsersController {
         return user;
     }
 
+    // @Get('whoami')
+    // whoAmI(@Session() session: any) {
+    //     return this.usersService.findOne(session.userId);
+    // }
+
     @Get('whoami')
-    whoAmI(@Session() session: any) {
-        return this.usersService.findOne(session.userId);
+    whoAmI(@CurrentUser() user: User) {
+        return user;
+    }
+
+    @Post('/signout')
+    signout(@Session() session: any) {
+        session.userId = null;
+        return 'User Signed Out';
     }
 
     // @Get('/colors/:color')

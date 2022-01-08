@@ -12,12 +12,15 @@ POST http://localhost:3000/auth/signin
 content-type: application/json
 
 {
-    "email": "dave@ee.com",
+    "email": "sam@ee.com",
     "password": "pass"
 }
 
 ### Get Current Signed-In User
 GET http://localhost:3000/auth/whoami
+
+### Signout User
+POST http://localhost:3000/auth/signout
 
 ### Find User By Id
 GET http://localhost:3000/auth/6
