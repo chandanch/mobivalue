@@ -39,6 +39,11 @@ export class UsersController {
         return user;
     }
 
+    @Get('whoami')
+    whoAmI(@Session() session: any) {
+        return this.usersService.findOne(session.userId);
+    }
+
     // @Get('/colors/:color')
     // setColor(@Param('color') color: string, @Session() session: any) {
     //     session.color = color;
