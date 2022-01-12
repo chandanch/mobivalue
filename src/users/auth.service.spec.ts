@@ -1,18 +1,23 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AuthService } from './auth.service';
+import { UsersService } from './users.service';
 
-describe('AuthService', () => {
-  let provider: AuthService;
+it('should create an instance of Auth Service', async () => {
+    // create a fake UserService
+    const fakeUserService = {
+        find: () => Promise.resolve([]),
+        create: (email: string, password: string) =>
+            Promise.resolve({ id: 1, email, password }),
+    };
 
-  beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      providers: [AuthService],
+    const module = await Test.createTestingModule({
+        providers: [
+            AuthService,
+            { provide: UsersService, useValue: fakeUserService },
+        ],
     }).compile();
 
-    provider = module.get<AuthService>(AuthService);
-  });
+    const service = module.get(AuthService);
 
-  it('should be defined', () => {
-    expect(provider).toBeDefined();
-  });
+    expect(service).toBeDefined();
 });
