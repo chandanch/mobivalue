@@ -6,14 +6,28 @@ import { UsersService } from './users.service';
 
 let service: AuthService;
 let fakeUserService: Partial<UsersService>;
+let users: User[];
 
 describe('Auth Service', () => {
     beforeEach(async () => {
+        users = [];
         // create a fake UserService
         fakeUserService = {
-            find: () => Promise.resolve([]),
-            create: (email: string, password: string) =>
-                Promise.resolve({ id: 1, email, password } as User),
+            find: (email: string) => {
+                const filteredUser = users.filter(
+                    (user) => user.email === email,
+                );
+                return Promise.resolve(filteredUser);
+            },
+            create: (email: string, password: string) => {
+                const user = {
+                    email,
+                    password,
+                    id: Math.floor(Math.random() * 999),
+                } as User;
+                users.push(user);
+                return Promise.resolve(user);
+            },
         };
 
         const module = await Test.createTestingModule({
@@ -40,14 +54,11 @@ describe('Auth Service', () => {
     });
 
     it('should throw error if email exists', async () => {
-        fakeUserService.find = () =>
-            Promise.resolve([
-                { id: 1, email: 'test', password: 'ee322' } as User,
-            ]);
+        await service.signup('ww22w@www.com', 'sdss');
         try {
             await service.signup('www@www.com', 'sdss');
         } catch (error) {
-            expect(error).toBeDefined();
+            expect(error.message).toEqual('Email in use!');
         }
     });
 
@@ -60,30 +71,18 @@ describe('Auth Service', () => {
     });
 
     it('should throw error if password does not match', async () => {
-        fakeUserService.find = () =>
-            Promise.resolve([
-                { id: 1, email: 'test', password: 'ee322' } as User,
-            ]);
+        await service.signup('www@www.com', 'sdss');
         try {
-            await service.signin('ddf@eeco.com', '222222');
+            const user = await service.signin('www@www.com', 'sdss');
         } catch (error) {
-            expect(error).toBeDefined();
+            console.log('##ERROR', error);
+            expect(error).toBeTruthy();
         }
     });
 
     it('should signin user successfully', async () => {
-        fakeUserService.find = () =>
-            Promise.resolve([
-                {
-                    id: 1,
-                    email: 'test',
-                    password:
-                        '5305b404e7ce8f9f.63d003654772c602294a5a09ac9f173b9b9112d411c8bd14a1b738069dcbd240',
-                } as User,
-            ]);
-        try {
-            const user = await service.signin('as@as.com', '12345');
-            expect(user).toBeDefined();
-        } catch (error) {}
+        await service.signup('as@as.com', '12345');
+        const user = await service.signin('as@as.com', '12345');
+        expect(user).toBeDefined();
     });
 });
