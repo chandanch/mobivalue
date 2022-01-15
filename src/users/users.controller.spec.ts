@@ -35,7 +35,9 @@ describe('UsersController', () => {
                 ]);
             },
             // remove: () => {},
-            // update: () => {},
+            update: jest.fn().mockImplementation((id: string, user: any) => {
+                return Promise.resolve({ id, ...user });
+            }),
         };
 
         const module: TestingModule = await Test.createTestingModule({
@@ -79,5 +81,13 @@ describe('UsersController', () => {
 
         expect(user.id).toBe(1);
         expect(session.userId).toBe(1);
+    });
+
+    it('should update the user', async () => {
+        const user = await controller.updateUser('1', {
+            email: 'as@as.com',
+            password: 'www',
+        });
+        expect(user.id).toBe(1);
     });
 });
