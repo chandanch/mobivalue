@@ -52,9 +52,9 @@ content-type: application/json
 
 {
     "make": "Porchse",
-    "model": "turbo",
-    "year": 2013,
-    "price": 23000,
+    "model": "911",
+    "year": 2015,
+    "price": 34000,
     "lng": 1.3,
     "lat": 2.3,
     "mileage": 2000
